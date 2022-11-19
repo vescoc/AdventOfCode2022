@@ -1,3 +1,3 @@
-# AdventOfCode2016
-https://adventofcode.com/2016
+# AdventOfCode2022
+https://adventofcode.com/2022
 
