@@ -8,7 +8,7 @@ main = hspecWith defaultConfig { configFastFail = True } specs
 
 specs :: Spec
 specs = do
-  describe "dayXX" $ do
+  describe "day01" $ do
     it "solve1" $ do
       solve1 input `shouldBe` 666
     it "solve2" $ do
