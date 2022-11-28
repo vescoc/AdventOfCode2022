@@ -11,7 +11,7 @@ homepage:       https://github.com/vescoc/day01#readme
 bug-reports:    https://github.com/vescoc/day01/issues
 author:         vescoc
 maintainer:     claudio.vesco@gmail.com
-copyright:      2021 vescoc
+copyright:      2022 vescoc
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple

@@ -4,7 +4,7 @@ github:              "vescoc/day01"
 license:             BSD3
 author:              "vescoc"
 maintainer:          "claudio.vesco@gmail.com"
-copyright:           "2021 vescoc"
+copyright:           "2022 vescoc"
 
 extra-source-files:
 - README.md

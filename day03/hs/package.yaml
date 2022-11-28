@@ -1,10 +1,10 @@
-name:                hs
+name:                day03
 version:             0.1.0.0
 github:              "vescoc/hs"
 license:             BSD3
 author:              "vescoc"
 maintainer:          "claudio.vesco@gmail.com"
-copyright:           "2021 vescoc"
+copyright:           "2022 vescoc"
 
 extra-source-files:
 - README.md
@@ -27,7 +27,7 @@ library:
   source-dirs: src
 
 executables:
-  hs-exe:
+  day03-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -36,10 +36,10 @@ executables:
     - -with-rtsopts=-N
     - -Wall
     dependencies:
-    - hs
+    - day03
 
 tests:
-  hs-test:
+  day03-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -47,5 +47,5 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - hs
+    - day03
     - hspec

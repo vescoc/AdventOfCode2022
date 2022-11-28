@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use dayXX::{part_1, part_2};
+use day21::{part_1, part_2};
 
 fn main() {
     let now = Instant::now();
