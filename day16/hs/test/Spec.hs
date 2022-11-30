@@ -4,7 +4,7 @@ import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 import Lib (solve1, solve2)
 
 main :: IO ()
-main = hspecWith defaultConfig { configFastFail = True } specs
+main = hspecWith defaultConfig { configFastFail = False } specs
 
 specs :: Spec
 specs = do
