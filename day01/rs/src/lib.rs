@@ -1,10 +1,10 @@
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref INPUT: &'static str = include_str!("../../input");
+    pub static ref INPUT: &'static str = include_str!("../../input");
 }
 
-fn solve_1(input: &str) -> u32 {
+pub fn solve_1(input: &str) -> u32 {
     input
         .split("\n\n")
         .map(|part| part.lines().map(|line| line.parse::<u32>().unwrap()).sum())
@@ -12,7 +12,7 @@ fn solve_1(input: &str) -> u32 {
         .unwrap()
 }
 
-fn solve_2(input: &str) -> u32 {
+pub fn solve_2(input: &str) -> u32 {
     let mut calories = input
         .split("\n\n")
         .map(|part| part.lines().map(|line| line.parse::<u32>().unwrap()).sum())

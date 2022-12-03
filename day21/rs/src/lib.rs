@@ -1,14 +1,14 @@
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref INPUT: &'static str = include_str!("../../input");
+    pub static ref INPUT: &'static str = include_str!("../../input");
 }
 
-fn solve_1(_input: &str) -> usize {
+pub fn solve_1(_input: &str) -> usize {
     todo!()
 }
 
-fn solve_2(_input: &str) -> usize {
+pub fn solve_2(_input: &str) -> usize {
     todo!()
 }
 

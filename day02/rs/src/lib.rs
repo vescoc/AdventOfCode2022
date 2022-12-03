@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref INPUT: &'static str = include_str!("../../input");
+    pub static ref INPUT: &'static str = include_str!("../../input");
 }
 
 // ROCK: A, X 1
@@ -49,11 +49,11 @@ fn solve<F: Fn(&str, &str) -> u32>(input: &str, f: F) -> u32 {
         .sum()
 }
 
-fn solve_1(input: &str) -> u32 {
+pub fn solve_1(input: &str) -> u32 {
     solve(input, play1)
 }
 
-fn solve_2(input: &str) -> u32 {
+pub fn solve_2(input: &str) -> u32 {
     solve(input, play2)
 }
 
