@@ -1,5 +1,5 @@
 module Lib
-    ( someFunc, solve1, solve2
+    ( someFunc, solve1, solve2, input, parse
     ) where
 
 import Data.Time.Clock (getCurrentTime, diffUTCTime)

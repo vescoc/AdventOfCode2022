@@ -2,17 +2,17 @@ import Test.Hspec (Spec, describe, it, shouldBe)
 import Test.Hspec.Runner (configFastFail, defaultConfig, hspecWith)
 
 import Lib (solve1, solve2)
+import qualified Lib as Lib
 
 main :: IO ()
-main = hspecWith defaultConfig { configFastFail = False } specs
+main = do
+  input <- Lib.parse <$> Lib.input
+  hspecWith defaultConfig { configFastFail = False } $ specs input
 
-specs :: Spec
-specs = do
+specs :: [String] -> Spec
+specs input = do
   describe "day01" $ do
     it "solve1" $ do
-      solve1 input `shouldBe` 666
+      solve1 input `shouldBe` 68923
     it "solve2" $ do
-      solve2 input `shouldBe` 666
-
-input :: String
-input = error "todo!"
+      solve2 input `shouldBe` 200044
