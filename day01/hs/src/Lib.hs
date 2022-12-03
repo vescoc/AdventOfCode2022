@@ -3,12 +3,12 @@ module Lib
     ) where
 
 import Data.Time.Clock (getCurrentTime, diffUTCTime)
-import Data.List (sortBy, minimumBy)
+import Data.List (sortBy)
 
 someFunc :: IO ()
 someFunc = do
   start <- getCurrentTime
-  i <- fmap parse input
+  i <- parse <$> input
   let p1 = solve1 i
   putStrLn $ "part 1: " ++ show p1
   let p2 = solve2 i
@@ -21,7 +21,7 @@ input :: IO String
 input = readFile "../input"
 
 solve1 :: [String] -> Int
-solve1 = minimumBy (flip compare) . fmap (sum . fmap read) . split ""
+solve1 = maximum . fmap (sum . fmap read) . split ""
 
 solve2 :: [String] -> Int
 solve2 = sum . take 3 . sortBy (flip compare) . fmap (sum . fmap read) . split ""

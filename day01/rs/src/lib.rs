@@ -6,32 +6,17 @@ lazy_static! {
 
 fn solve_1(input: &str) -> u32 {
     input
-        .lines()
-        .fold((0, u32::MIN),
-              |(acc, max), line| {
-                  if let Ok(value) = line.parse::<u32>() {
-                      (acc + value, max)
-                  } else {
-                      (0, max.max(acc))
-                  }
-              }).1
+        .split("\n\n")
+        .map(|part| part.lines().map(|line| line.parse::<u32>().unwrap()).sum())
+        .max()
+        .unwrap()
 }
 
 fn solve_2(input: &str) -> u32 {
     let mut calories = input
-        .lines()
-        .fold((0, vec![]),
-              |(acc, mut calories), line| {
-                  if let Ok(value) = line.parse::<u32>() {
-                      (acc + value, calories)
-                  } else {
-                      (0,
-                       {
-                           calories.push(acc);
-                           calories
-                       })
-                  }
-              }).1;
+        .split("\n\n")
+        .map(|part| part.lines().map(|line| line.parse::<u32>().unwrap()).sum())
+        .collect::<Vec<u32>>();
     calories.sort_by(|a, b| b.cmp(a));
     calories.into_iter().take(3).sum()
 }
@@ -49,18 +34,29 @@ mod tests {
     use super::*;
 
     lazy_static! {
-        static ref INPUT: &'static str = r#"XX"#;
+        static ref INPUT: &'static str = r#"1000
+2000
+3000
+
+4000
+
+5000
+6000
+
+7000
+8000
+9000
+
+10000"#;
     }
 
     #[test]
     fn same_results_1() {
-        // assert_eq!(solve_1(&INPUT), 666);
-        todo!();
+        assert_eq!(solve_1(&INPUT), 24000);
     }
 
     #[test]
     fn same_results_2() {
-        // assert_eq!(solve_2(&INPUT), 666);
-        todo!();
+        assert_eq!(solve_2(&INPUT), 45000);
     }
 }

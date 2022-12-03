@@ -46,7 +46,7 @@ fn solve<F: Fn(&str, &str) -> u32>(input: &str, f: F) -> u32 {
             let p2 = i.next().unwrap();
             f(p1, p2)
         })
-        .sum()    
+        .sum()
 }
 
 fn solve_1(input: &str) -> u32 {
