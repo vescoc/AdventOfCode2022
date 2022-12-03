@@ -10,9 +10,9 @@ specs :: Spec
 specs = do
   describe "day03" $ do
     it "solve1" $ do
-      solve1 input `shouldBe` 666
+      solve1 input `shouldBe` 7997
     it "solve2" $ do
-      solve2 input `shouldBe` 666
+      solve2 input `shouldBe` 2545
 
 input :: String
 input = error "todo!"
