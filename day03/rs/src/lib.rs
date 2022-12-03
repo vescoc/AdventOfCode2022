@@ -1,10 +1,11 @@
-use std::collections::HashSet;
-
 use lazy_static::lazy_static;
 
 lazy_static! {
     static ref INPUT: &'static str = include_str!("../../input");
 }
+
+mod bitset;
+use bitset::CharBitSet;
 
 fn solve_1(input: &str) -> u32 {
     input
@@ -13,11 +14,10 @@ fn solve_1(input: &str) -> u32 {
             let len = line.len();
             let common = line[0..len / 2]
                 .chars()
-                .collect::<HashSet<_>>()
-                .intersection(&line[len / 2..].chars().collect::<HashSet<_>>())
+                .collect::<CharBitSet>()
+                .intersection(&line[len / 2..].chars().collect::<CharBitSet>())
                 .into_iter()
                 .next()
-                .copied()
                 .unwrap();
             if ('a'..='z').contains(&common) {
                 common as u32 - 'a' as u32 + 1
@@ -36,8 +36,8 @@ fn solve_2(input: &str) -> u32 {
         .map(|chunk| {
             let common = chunk
                 .iter()
-                .map(|a| a.chars().collect::<HashSet<_>>())
-                .reduce(|a, b| a.intersection(&b).copied().collect::<HashSet<_>>())
+                .map(|a| a.chars().collect::<CharBitSet>())
+                .reduce(|a, b| a.intersection(&b))
                 .unwrap()
                 .into_iter()
                 .next()
