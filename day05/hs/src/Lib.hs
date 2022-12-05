@@ -35,7 +35,7 @@ parse = bimap parseS (fmap (parseM . words) . lines . drop 2) . breakOn "\n\n"
         array' l = array (1, length l) $ zip [1..] l
   
 solve :: (Array Int String -> Move -> Array Int String) -> Data -> String
-solve move (s, ms) = mapMaybe listToMaybe $ elems $ foldl' move s ms
+solve move = mapMaybe listToMaybe . elems . uncurry (foldl' move)
 
 solve1 :: Data -> String
 solve1 = solve move
