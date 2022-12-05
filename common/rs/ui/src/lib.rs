@@ -32,8 +32,8 @@ impl<SOLVE1, SOLVE2> PartialEq for ModelProps<SOLVE1, SOLVE2> {
 impl<SOLVE1, P1T, SOLVE2, P2T> Component for Model<SOLVE1, P1T, SOLVE2, P2T>
 where SOLVE1: Fn(&str) -> P1T + 'static,
       SOLVE2: Fn(&str) -> P2T + 'static,
-      P1T: Display + Copy + 'static,
-      P2T: Display + Copy + 'static,
+      P1T: Display + Clone + 'static,
+      P2T: Display + Clone + 'static,
 {
     type Message = Msg;
     type Properties = ModelProps<SOLVE1, SOLVE2>;
@@ -79,8 +79,8 @@ where SOLVE1: Fn(&str) -> P1T + 'static,
                 <button {onclick}>{ "\u{23F5}" }</button>
                 <label for="results"> { "Results: " }
             <div id="results" class="output">
-                <div class="result"><label> { "Part 1: " } </label> { self.part1 }</div>
-                <div class="result"><label> { "Part 2: " } </label> { self.part2 }</div>
+                <div class="result"><label> { "Part 1: " } </label> { self.part1.clone() }</div>
+                <div class="result"><label> { "Part 2: " } </label> { self.part2.clone() }</div>
             </div>
             </label>
                 </>
