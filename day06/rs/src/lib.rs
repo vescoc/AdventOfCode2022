@@ -4,12 +4,31 @@ lazy_static! {
     pub static ref INPUT: &'static str = include_str!("../../input");
 }
 
-pub fn solve_1(_input: &str) -> usize {
-    todo!()
+fn solve<const LEN: usize>(input: &str) -> usize {
+    input
+        .as_bytes()
+        .windows(LEN)
+        .enumerate()
+        .find_map(|(i, data)| {
+            for (ii, c) in data.iter().take(data.len() - 1).enumerate() {
+                for o in &data[ii + 1..] {
+                    if c == o {
+                        return None;
+                    }
+                }
+            }
+            Some(i)
+        })
+        .unwrap()
+        + LEN
 }
 
-pub fn solve_2(_input: &str) -> usize {
-    todo!()
+pub fn solve_1(input: &str) -> usize {
+    solve::<4>(input)
+}
+
+pub fn solve_2(input: &str) -> usize {
+    solve::<14>(input)
 }
 
 pub fn part_1() -> usize {
@@ -25,18 +44,16 @@ mod tests {
     use super::*;
 
     lazy_static! {
-        static ref INPUT: &'static str = r#"XX"#;
+        static ref EXAMPLE1: &'static str = include_str!("../../example1");
     }
 
     #[test]
     fn same_results_1() {
-        // assert_eq!(solve_1(&INPUT), 666);
-        todo!();
+        assert_eq!(solve_1(&EXAMPLE1), 7);
     }
 
     #[test]
     fn same_results_2() {
-        // assert_eq!(solve_2(&INPUT), 666);
-        todo!();
+        assert_eq!(solve_2(&EXAMPLE1), 19);
     }
 }
