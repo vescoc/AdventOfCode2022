@@ -91,11 +91,11 @@ pub fn solve_2(input: &str) -> u32 {
 
     let used_space = filesystem[&vec![]];
     let unused_space = 70_000_000 - used_space;
-    let need_space = 30_000_000 - unused_space;
+    let needed_space = 30_000_000 - unused_space;
 
-    filesystem
-        .into_iter()
-        .filter_map(|(_, size)| if size >= need_space { Some(size) } else { None })
+    *filesystem
+        .values()
+        .filter(|size| **size >= needed_space)
         .min()
         .unwrap()
 }
