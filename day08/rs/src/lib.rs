@@ -12,59 +12,84 @@ pub fn solve_1(input: &str) -> usize {
         .map(|line| line.as_bytes().to_vec())
         .collect::<Vec<_>>();
 
-    let mut set = HashSet::new();
-
-    // left to right
-    for (y, row) in forest.iter().enumerate() {
-        let mut max = 0;
-        for (x, &v) in row.iter().enumerate() {
-            if v > max {
-                max = v;
-                set.insert((x, y));
-            }
-        }
-    }
-
-    // right to left
-    for (y, row) in forest.iter().enumerate() {
-        let mut max = 0;
-        for (x, &v) in row.iter().enumerate().rev() {
-            if v > max {
-                max = v;
-                set.insert((x, y));
-            }
-        }
-    }
-
-    // top to bottom
-    for x in 0..forest[0].len() {
-        let mut max = 0;
-        for (y, row) in forest.iter().enumerate() {
-            let v = row[x];
-            if v > max {
-                max = v;
-                set.insert((x, y));
-            }
-        }
-    }
-
-    // bottom to top
-    for x in 0..forest[0].len() {
-        let mut max = 0;
-        for y in (0..forest.len()).rev() {
-            let v = forest[y][x];
-            if v > max {
-                max = v;
-                set.insert((x, y));
-            }
-        }
-    }
+    let set = forest // left to right
+        .iter()
+        .enumerate()
+        .flat_map(|(y, row)| {
+            let mut max = 0;
+            row
+                .iter()
+                .enumerate()
+                .filter_map(move |(x, &v)| {
+                    if v > max {
+                        max = v;
+                        Some((x, y))
+                    } else {
+                        None
+                    }
+                })
+        })
+        .chain(forest // right to left
+               .iter()
+               .enumerate()
+               .flat_map(|(y, row)| {
+                   let mut max = 0;
+                   row
+                       .iter()
+                       .enumerate()
+                       .rev()
+                       .filter_map(move |(x, &v)| {
+                           if v > max {
+                               max = v;
+                               Some((x, y))
+                           } else {
+                               None
+                           }
+                       })
+               }))
+        .chain((0..forest[0].len()) // top to bottom
+               .flat_map(|x| {
+                   let mut max = 0;
+                   forest
+                       .iter()
+                       .enumerate()
+                       .filter_map(move |(y, row)| {
+                           let v = row[x];
+                           if v > max {
+                               max = v;
+                               Some((x, y))
+                           } else {
+                               None
+                           }
+                       })
+               }))
+        .chain((0..forest[0].len()) // bottom to top
+               .flat_map(|x| {
+                   let mut max = 0;
+                   forest
+                       .iter()
+                       .enumerate()
+                       .rev()
+                       .filter_map(move |(y, row)| {
+                           let v = row[x];
+                           if v > max {
+                               max = v;
+                               Some((x, y))
+                           } else {
+                               None
+                           }
+                       })
+               }))
+        .collect::<HashSet::<_>>();
 
     set.len()
 }
 
 pub fn solve_2(input: &str) -> usize {
     let forest: Vec<Vec<u8>> = input.lines().map(|line| line.as_bytes().to_vec()).collect();
+
+    let mx = forest[0].len() - 1;
+    let my = forest.len() - 1;
 
     let top = |v, x, y| {
         let mut count = 0;
@@ -102,7 +127,7 @@ pub fn solve_2(input: &str) -> usize {
 
     let right = |v, x, y| {
         let mut count = 0;
-        for xx in x + 1..forest[0].len() {
+        for xx in x + 1..mx {
             count += 1;
             let row: &Vec<u8> = &forest[y];
             if v <= row[xx] {
@@ -115,18 +140,16 @@ pub fn solve_2(input: &str) -> usize {
     forest
         .iter()
         .enumerate()
-        .map(|(y, row)| {
+        .flat_map(|(y, row)| {
             row.iter()
                 .enumerate()
-                .map(|(x, &v)| {
-                    if x == 0 || y == 0 || x == forest[0].len() - 1 || y == forest.len() - 1 {
+                .map(move |(x, &v)| {
+                    if x == 0 || y == 0 || x == mx || y == my {
                         0
                     } else {
                         top(v, x, y) * bottom(v, x, y) * left(v, x, y) * right(v, x, y)
                     }
                 })
-                .max()
-                .unwrap()
         })
         .max()
         .unwrap()
