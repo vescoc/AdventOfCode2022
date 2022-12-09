@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+use std::iter;
 
 use lazy_static::lazy_static;
 
@@ -19,8 +20,9 @@ fn follow((hx, hy): &(i32, i32), &(tx, ty): &(i32, i32)) -> (i32, i32) {
     }
 }
 
+// it performs better
 pub fn solve<const SIZE: usize>(input: &str) -> usize {
-    let mut positions = HashSet::new();
+    let mut positions = HashSet::with_capacity(64 * 1024);
 
     let mut rope = [(0, 0); SIZE];
 
@@ -34,7 +36,7 @@ pub fn solve<const SIZE: usize>(input: &str) -> usize {
             _ => panic!("invalid direction"),
         };
 
-        let moves = moves.parse::<i32>().expect("invalid moves");
+        let moves = moves.parse::<usize>().expect("invalid moves");
         for _ in 0..moves {
             rope[0].0 += dx;
             rope[0].1 += dy;
@@ -48,6 +50,39 @@ pub fn solve<const SIZE: usize>(input: &str) -> usize {
     }
 
     positions.len()
+}
+
+// it performs worse
+#[allow(dead_code)]
+fn solve_iter<const SIZE: usize>(input: &str) -> usize {
+    let mut rope = [(0, 0); SIZE];
+    input
+        .lines()
+        .flat_map(|line| {
+            let (direction, moves) = line.split_once(' ').expect("invalid move format");
+            let d = match direction {
+                "U" => (0, -1),
+                "D" => (0, 1),
+                "L" => (-1, 0),
+                "R" => (1, 0),
+                _ => panic!("invalid direction"),
+            };
+
+            iter::repeat(d)
+                .take(moves.parse::<usize>().expect("invalid moves"))
+        })
+        .map(|(dx, dy)| {
+            rope[0].0 += dx;
+            rope[0].1 += dy;
+
+            for i in 1..rope.len() {
+                rope[i] = follow(&rope[i - 1], &rope[i]);
+            }
+
+            rope[SIZE - 1]
+        })
+        .collect::<HashSet<_>>()
+        .len()
 }
 
 pub fn solve_1(input: &str) -> usize {
