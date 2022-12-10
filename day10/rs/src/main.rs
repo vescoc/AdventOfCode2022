@@ -6,7 +6,7 @@ fn main() {
     let now = Instant::now();
 
     println!("part 1: {}", part_1());
-    println!("part 2: {}", part_2());
+    println!("part 2:\n{}", part_2());
 
     let elapsed = now.elapsed();
     println!(
