@@ -33,23 +33,25 @@ parse = fmap (parseL . words) . lines
         parseL _ = error "invalid instruction"
 
 solve1 :: Input -> Int
-solve1 = sum . mapMaybe f . zip [1..] . foldl' (\b a -> b ++ eval a (last b)) [1]
+solve1 = sum . mapMaybe f . zip [1..] . eval 1
   where f (i, v)
           | i `elem` [20, 60, 100, 140, 180, 220] = Just $ i * v
           | otherwise = Nothing
 
 solve2 :: Input -> String
-solve2 = intercalate "\n" . chunks 40 . zipWith f [0..] . take (40 * 6) . foldl' (\b a -> b ++ eval a (last b)) [1]
+solve2 = intercalate "\n" . chunks 40 . zipWith f [0..] . take (40 * 6) . eval 1
   where f i v
           | i' >= v - 1 && i' <= v + 1 = '#'
           | otherwise = '.'
           where i' = i `mod` 40
   
-eval :: Instruction -> Int -> [Int]
-eval Noop v = [v]
-eval (Addx x) v = [v, v + x]
-
 chunks :: Int -> [a] -> [[a]]
 chunks n xs
   | length xs <= n = [xs]
   | otherwise = take n xs : chunks n (drop n xs)
+
+eval :: Int -> [Instruction] -> [Int]
+eval x is = x : next x is
+  where next x (Noop:is') = x : next x is'
+        next x (Addx a:is') = x : x + a : next (x + a) is'
+        next x [] = []
