@@ -2,7 +2,7 @@ use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap, HashSet, VecDeque};
 use std::iter;
 
-use std::str;
+use rayon::prelude::*;
 
 use lazy_static::lazy_static;
 
@@ -241,6 +241,7 @@ pub fn solve_2(input: &str) -> u32 {
     let solve = Solve::new(input);
 
     let r = (0..(1 << solve.rates.len()))
+        .into_par_iter()
         .map(|i| (i, solve.solve(26, i)))
         .collect::<HashMap<_, _>>();
 
