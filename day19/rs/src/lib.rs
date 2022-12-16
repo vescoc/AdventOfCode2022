@@ -25,18 +25,16 @@ mod tests {
     use super::*;
 
     lazy_static! {
-        static ref INPUT: &'static str = r#"XX"#;
+        static ref EXAMPLE1: &'static str = include_str!("../../example1");
     }
 
     #[test]
     fn same_results_1() {
-        // assert_eq!(solve_1(&INPUT), 666);
-        todo!();
+        assert_eq!(solve_1(&EXAMPLE1), 666);
     }
 
     #[test]
     fn same_results_2() {
-        // assert_eq!(solve_2(&INPUT), 666);
-        todo!();
+        assert_eq!(solve_2(&EXAMPLE1), 666);
     }
 }
