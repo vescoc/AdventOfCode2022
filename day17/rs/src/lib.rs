@@ -151,7 +151,7 @@ pub fn solve_1(input: &str) -> usize {
     display.height()
 }
 
-pub fn solve_2(input: &str) -> usize {
+pub fn solve_2(input: &str) -> u64 {
     let mut display = Display::new();
     let mut deltas = Vec::new();
 
@@ -205,18 +205,18 @@ pub fn solve_2(input: &str) -> usize {
         }
     };
 
-    let mut count = 1_000_000_000_000;
-    count -= offset;
+    let mut count: u64 = 1_000_000_000_000;
+    count -= offset as u64;
 
-    let offset_delta = deltas[0..offset].iter().sum::<usize>();
+    let offset_delta = deltas[0..offset].iter().sum::<usize>() as u64;
 
-    let cycle_delta = deltas[offset..offset + size].iter().sum::<usize>();
+    let cycle_delta = deltas[offset..offset + size].iter().sum::<usize>() as u64;
 
-    let cycle_count = count / size;
+    let cycle_count = count / size as u64;
 
-    count %= size;
+    count %= size as u64;
 
-    let remaining_height = deltas[offset..offset + count].iter().sum::<usize>();
+    let remaining_height = deltas[offset..offset + count as usize].iter().sum::<usize>() as u64;
 
     offset_delta + cycle_count * cycle_delta + remaining_height
 }
@@ -225,7 +225,7 @@ pub fn part_1() -> usize {
     solve_1(&INPUT)
 }
 
-pub fn part_2() -> usize {
+pub fn part_2() -> u64 {
     solve_2(&INPUT)
 }
 
