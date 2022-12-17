@@ -153,17 +153,16 @@ pub fn solve_1(input: &str) -> usize {
 
 pub fn solve_2(input: &str) -> usize {
     let mut display = Display::new();
-
-    let mut jets = input.chars().cycle();
-
     let mut deltas = Vec::new();
 
-    for (_i, shape) in [Shape::Line, Shape::Cross, Shape::L, Shape::I, Shape::Square]
+    let mut jets = input.chars().cycle();
+    let mut shapes = [Shape::Line, Shape::Cross, Shape::L, Shape::I, Shape::Square]
         .iter()
-        .cycle()
-        .enumerate()
-        .take(5_000)
-    {
+        .cycle();
+
+    let (offset, size) = 'outher: loop {
+        let shape = shapes.next().unwrap();
+
         let start_height = display.height();
 
         let (mut x, mut y) = (2, start_height + 3);
@@ -189,20 +188,22 @@ pub fn solve_2(input: &str) -> usize {
                 }
             };
         }
-    }
 
-    let (offset, size) = (10..500)
-        .find_map(|offset| {
-            (2..=2_500)
-                .find(|size| {
-                    let candidate = &deltas[offset..offset + size];
-                    deltas[offset..]
-                        .chunks(*size)
-                        .all(|chunk| &candidate[..chunk.len()] == chunk)
-                })
-                .map(|size| (offset, size))
-        })
-        .unwrap();
+        let max_size = deltas.len() / 2;
+        if max_size > 10 {
+            for size in (1..=max_size).rev() {
+                let offset = deltas.len() - size * 2;
+
+                if offset > size {
+                    break;
+                }
+
+                if deltas[offset..deltas.len() - size] == deltas[deltas.len() - size..] {
+                    break 'outher (offset, size);
+                }
+            }
+        }
+    };
 
     let mut count = 1_000_000_000_000;
     count -= offset;
